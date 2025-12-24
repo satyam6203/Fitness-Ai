@@ -1,12 +1,12 @@
 package com.activity.activityservice.Service.Impl;
 
-import com.activity.activityservice.Constant.ActivityType;
 import com.activity.activityservice.Dto.ActivityRequest;
 import com.activity.activityservice.Dto.ActivityResponse;
 import com.activity.activityservice.Model.Activity;
 import com.activity.activityservice.Repo.ActivityRepo;
 import com.activity.activityservice.Service.ActivityService;
-import lombok.AllArgsConstructor;
+import com.activity.activityservice.Service.UserValidationService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,14 @@ import java.util.stream.Collectors;
 public class ActivityServiceImpl implements ActivityService {
 
     private final ActivityRepo activityRepo;
+    private final UserValidationService userValidationService;
 
     @Override
     public ActivityResponse trackActivity(ActivityRequest req) {
+        boolean isValidUser=userValidationService.validateUser(req.getUserId());
+        if(!isValidUser){
+            throw new RuntimeException("Invalied User: "+req.getUserId());
+        }
         Activity activity=Activity.builder()
                 .userId(req.getUserId())
                 .type(req.getType())
@@ -58,6 +63,6 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ActivityResponse getActivityById(String activityId) {
         return activityRepo.findById(activityId).map(this::mapToResponse)
-                .orElseThrow(()->new RuntimeException("Activity not find By this id"+activityId));
+                .orElseThrow(()->new RuntimeException("Activity not find By this id "+activityId));
     }
 }

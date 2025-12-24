@@ -2,7 +2,6 @@ package com.fitness.userservice.Controller;
 
 import com.fitness.userservice.Dto.RegisterRequest;
 import com.fitness.userservice.Dto.UserResponse;
-import com.fitness.userservice.Model.User;
 import com.fitness.userservice.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,5 +22,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest req){
         return ResponseEntity.ok(userService.register(req));
+    }
+
+    @GetMapping("/{userId}/validate")
+    public ResponseEntity<Boolean> validateUser(@PathVariable String userId){
+        return ResponseEntity.ok(userService.existByUserId(userId));
     }
 }

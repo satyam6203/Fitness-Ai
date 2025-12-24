@@ -6,10 +6,13 @@ import com.fitness.userservice.Model.User;
 import com.fitness.userservice.Repo.UserRepo;
 import com.fitness.userservice.Service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
@@ -51,6 +54,12 @@ public class UserServiceImpl implements UserService {
         userResponse.setCreatedAt(user.getCreatedAt());
         userResponse.setUpdatedAt(user.getUpdatedAt());
         return userResponse;
+    }
+
+    @Override
+    public boolean existByUserId(String userId) {
+        log.info("Calling User Validation API for UserId: "+userId);
+        return userRepo.existsById(userId);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.activity.activityservice.Config;
+package com.fitness.aiservice.Config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 @Configuration
 @EnableMongoAuditing
 public class MongoConfig {
-    
+
 }
